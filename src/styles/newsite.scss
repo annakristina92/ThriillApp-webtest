@@ -111,14 +111,14 @@ p { margin: 0 0 1em; color: var(--text-dim); }
 
 /* Icons live as real .svg files in src/assets (see components/Icon/icon.js) and are
    rendered as a currentColor mask, so a button's icon still follows hover/state
-   color changes exactly like it did as inline SVG. */
+   color changes exactly like it did as inline SVG. mask-image itself is set inline
+   by the Icon component, not here — a relative url() in a CSS custom property
+   resolves against the stylesheet that reads it, not the page, which breaks the path. */
 .icon {
   display: inline-block;
   width: 1em;
   height: 1em;
   background-color: currentColor;
-  -webkit-mask-image: var(--icon-src);
-  mask-image: var(--icon-src);
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -801,12 +801,17 @@ section h2 {
   flex-shrink: 0;
   border-radius: 50%;
   border: 1px solid var(--border);
-  background: transparent;
-  color: var(--text-dim);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
   cursor: pointer;
-  transition: border-color 0.15s ease, color 0.15s ease;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
 }
-.btn-icon:hover { color: var(--accent); border-color: var(--accent); }
+.btn-icon:hover { color: var(--accent); border-color: var(--accent); background: rgba(255, 255, 255, 0.1); }
 .btn-icon.is-copied { color: var(--icon-b); border-color: var(--icon-b); font-weight: 700; }
 
 .btn-icon.locked {
