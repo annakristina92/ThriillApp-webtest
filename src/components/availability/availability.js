@@ -1,69 +1,61 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInstagram, faFacebookF, faYoutube, faTiktok } from '@fortawesome/free-brands-svg-icons';
-import './availability.scss';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Reveal, StoreBadges } from '../../siteHelpers';
+
+const SOCIALS = [
+  { label: 'Instagram', href: 'https://www.instagram.com/thriillapp?igsh=dWlmbWR5NWhyYnhq' },
+  { label: 'Facebook', href: 'https://www.facebook.com/profile.php?id=61558666558135' },
+  { label: 'YouTube', href: 'https://youtube.com/@thriillapp?feature=shared' },
+  { label: 'TikTok', href: 'https://www.tiktok.com/@thriill.com?_t=8pkNUYkvnpg&_r=1' },
+];
+
+// The address is kept out of the page until someone asks for it (same approach as the
+// previous site): it isn't in the HTML, and it's assembled from two pieces here so it
+// doesn't appear as one readable string in the code either.
+const MAIL_USER = 'feedback';
+const MAIL_HOST = 'thriill.com';
 
 const Availability = () => {
-    const [showEmail, setShowEmail] = useState(false);
+  const [showEmail, setShowEmail] = useState(false);
+  const address = `${MAIL_USER}@${MAIL_HOST}`;
 
-    const handleShowEmail = () => {
-        setShowEmail(true);
-    };
-
-    return (
-        <div className="availability-container" id='contact'>
-            <div className="availability-container__left">
-                <p>Download app from Google Play Store or App Store now and become a better musician! 
-                <Link to="/privacy-policy" className="availability-container__left__policy">
-                        See Privacy Policy
-                </Link></p>
-                <div className="store-buttons">
-                    <a href="https://apps.apple.com/in/app/thriill-train-your-ear/id6744299502" target="_blank" rel="noopener noreferrer">
-                        <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store" />
-                    </a>
-                    <a href="https://play.google.com/store/apps/details?id=com.thriill.app" target="_blank" rel="noopener noreferrer">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Get it on Google Play" />
-                    </a>
-                </div>
-                <div className="availability-container__left">
-                    <p className='mt-4'> © 2024 Thrill. All rights reserved. </p>
-                </div>
-            </div>
-
-            <div className="availability-container__right">
-                <div>
-                    <h3>Write to us!</h3>
-                    {!showEmail ? (
-                        <button onClick={handleShowEmail} className="cta-button">
-                            Email
-                        </button>
-                    ) : (
-                        <a href="mailto:feedback@thriill.com">feedback@thriill.com</a>
-                    )}
-                </div>
-                <div>
-                    <div className="availability-container__right__follow">
-                        Follow us on
-                    </div>
-                    <div>
-                        <a href='https://www.instagram.com/thriillapp?igsh=dWlmbWR5NWhyYnhq'>
-                            <FontAwesomeIcon icon={faInstagram} style={{color: "#fafafa"}}/>
-                        </a>
-                        <a href='https://www.facebook.com/profile.php?id=61558666558135'>
-                            <FontAwesomeIcon icon={faFacebookF} style={{color: "#fafafa"}}/>
-                        </a>
-                        <a href='https://youtube.com/@thriillapp?feature=shared'>
-                            <FontAwesomeIcon icon={faYoutube} style={{color: "#fafafa"}}/>
-                        </a>
-                        <a href='https://www.tiktok.com/@thriill.com?_t=8pkNUYkvnpg&_r=1'>
-                            <FontAwesomeIcon icon={faTiktok} style={{color: "#fafafa"}}/>
-                        </a>
-                    </div>
-                </div>
-            </div>
+  return (
+    <section className="download-cta" id="download">
+      <Reveal className="ts-container final-cta-inner">
+        <div className="final-cta-download">
+          <h2>Start training your ear today</h2>
+          <p>Download Thriill on the App Store or Google Play and become a better musician.</p>
+          <StoreBadges />
         </div>
-    );
-}
+
+        <div className="final-cta-contact" id="contact">
+          <h2>Write to us</h2>
+          <p>Questions, feedback, or a bug to report? We read every message.</p>
+          {showEmail ? (
+            <a className="ts-btn ts-btn-primary" href={`mailto:${address}`}>
+              {address}
+            </a>
+          ) : (
+            <button className="ts-btn ts-btn-primary" type="button" onClick={() => setShowEmail(true)}>
+              Email
+            </button>
+          )}
+
+          <div className="socials">
+            <p>Follow us</p>
+            <ul>
+              {SOCIALS.map((social) => (
+                <li key={social.label}>
+                  <a href={social.href} target="_blank" rel="noopener noreferrer" aria-label={social.label}>
+                    {social.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </Reveal>
+    </section>
+  );
+};
 
 export default Availability;

@@ -1,10 +1,9 @@
-import { PREMIUM_POINTS } from './data';
-import { Reveal } from './common';
-import bee from './assets/img/lesson3-bee.svg';
-import skeleton from './assets/img/lesson4-skeleton.svg';
-import moon from './assets/img/lesson5-moon.svg';
-import eye from './assets/img/lesson6-eye.svg';
-import dove from './assets/img/lesson7-dove.svg';
+import { Reveal } from '../../siteHelpers';
+import bee from '../../assets/lesson3-bee.svg';
+import skeleton from '../../assets/lesson4-skeleton.svg';
+import moon from '../../assets/lesson5-moon.svg';
+import eye from '../../assets/lesson6-eye.svg';
+import dove from '../../assets/lesson7-dove.svg';
 
 const FLOATING_ICONS = [
   { src: bee, pos: 'pos-1' },
@@ -12,6 +11,13 @@ const FLOATING_ICONS = [
   { src: moon, pos: 'pos-3' },
   { src: eye, pos: 'pos-4' },
   { src: dove, pos: 'pos-5' },
+];
+
+const PREMIUM_POINTS = [
+  'Full note & interval course library with video and text lessons',
+  'Unlimited practice, no daily caps',
+  'Progress tracking & scoreboard history',
+  'Piano sheet repertoire library',
 ];
 
 const Premium = () => (

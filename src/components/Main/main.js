@@ -1,52 +1,94 @@
-import { useEffect } from 'react';
-import "./main.scss";
-import hero from "../../assets/mockup1.png";
+import { useEffect, useRef, useState } from 'react';
+import { HERO_EMBED } from '../../siteData';
+import { LazyIframe, StoreBadges } from '../../siteHelpers';
+import Icon from '../Icon/icon';
+import heroVideo from '../../assets/piano-hands-bg.mp4';
 
+// The hero: real background video, then the phone-frame with the actual app-in-action
+// video inside (starts muted for autoplay, with an unmute toggle).
 const Main = () => {
+  const videoRef = useRef(null);
+  const embedRef = useRef(null);
+  const [unmuted, setUnmuted] = useState(false);
 
-    const adjustScroll = () => {
-        const sections = ['features', 'screenshots', 'download', 'contact'];
+  // React doesn't reliably reflect the `muted` prop as an attribute, and browsers
+  // only autoplay muted video, so set it on the element and start playback directly.
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = true;
+    const playing = video.play();
+    if (playing && playing.catch) playing.catch(() => {});
+  }, []);
 
-        sections.forEach(id => {
-            const element = document.getElementById(id);
-            if (element) {
-                element.style.scrollMarginTop = '80px';
-            }
-        });
-    };
+  const toggleSound = () => {
+    const next = !unmuted;
+    setUnmuted(next);
+    const frame = embedRef.current;
+    if (frame && frame.contentWindow) {
+      frame.contentWindow.postMessage(
+        JSON.stringify({ event: 'command', func: next ? 'unMute' : 'mute', args: [] }),
+        '*',
+      );
+    }
+  };
 
-    useEffect(() => {
-        adjustScroll();
-    }, []);
-
-    return (
-        <div className="main-container">
-            <div className='main'>
-                <div className='main__left-end'>
-                    <h1 className='main__left-end__title'>
-                        <span className='main__left-end__title__welcome'>Welcome to Thriill!</span>
-                        <span className='main__left-end__title__hero'>
-                            Train Your Ear!<span className='main__left-end__title__accent'></span>
-                        </span>
-                    </h1>
-                    <div className='main__left-end__sub-title'>
-                        Unlock the world of music theory, from notations to intervals, in a fun and engaging way—right at your fingertips. Ready to level up your musical skills? Sign up and start the journey today!
-                    </div>
-                    <div className='main__left-end__buttons'>
-                        <a href="https://apps.apple.com/in/app/thriill-train-your-ear/id6744299502" target="_blank" rel="noopener noreferrer">
-                            <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store" />
-                        </a>
-                        <a href="https://play.google.com/store/apps/details?id=com.thriill.app" target="_blank" rel="noopener noreferrer">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Get it on Google Play" />
-                        </a>
-                    </div>
-                </div>
-                <div className='main__right-end'>
-                    <img src={hero} height={"600px"} alt='HeroImage' />
-                </div>
-            </div>
+  return (
+    <section className="hero">
+      <video
+        ref={videoRef}
+        className="hero-video-bg"
+        autoPlay
+        muted
+        loop
+        playsInline
+        aria-hidden="true"
+      >
+        <source src={heroVideo} type="video/mp4" />
+      </video>
+      <div className="hero-video-overlay" aria-hidden="true" />
+      <div className="ts-container hero-inner">
+        <div className="hero-copy">
+          <h1>Thriill! Train Your Ear</h1>
+          <p className="hero-sub">
+            A fun and engaging way to learn the basics of music theory and train your ear.
+          </p>
+          <StoreBadges />
+          <p className="hero-note">Free to start · iOS &amp; Android</p>
         </div>
-    );
+        <div className="hero-visual">
+          <div className="phone-frame">
+            <div className="phone-screen">
+              <LazyIframe
+                ref={embedRef}
+                id="hero-video"
+                src={HERO_EMBED}
+                title="Thriill in action"
+                frameBorder="0"
+                allow="autoplay; encrypted-media; picture-in-picture"
+                allowFullScreen
+              />
+              <div className="phone-click-shield" />
+            </div>
+            <button
+              className={`unmute-btn${unmuted ? ' is-unmuted' : ''}`}
+              id="unmute-btn"
+              type="button"
+              aria-pressed={unmuted}
+              aria-label={unmuted ? 'Mute video' : 'Unmute video'}
+              onClick={toggleSound}
+            >
+              <Icon name="muted" className="icon-muted" />
+              <Icon name="unmuted" className="icon-unmuted" />
+              <span className="unmute-label" id="unmute-label">
+                {unmuted ? 'Mute' : 'Unmute'}
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 };
 
 export default Main;

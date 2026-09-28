@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { Reveal, storeHref, usePlatform } from './common';
-import lessonKeys from './assets/img/lesson-keys.svg';
-import dice from './assets/img/dice.png';
+import { Reveal, storeHref, usePlatform } from '../../siteHelpers';
+import lessonKeys from '../../assets/lesson-keys.svg';
+import dice from '../../assets/dice.png';
 
 // Mirrors the app's real "Natural Notes" drill (NoteSelectorFragment + PianoInstrument):
 // no audio and no separate submit. The target note is shown and tapping the matching

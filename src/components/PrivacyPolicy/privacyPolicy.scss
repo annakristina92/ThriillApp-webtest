@@ -1,10 +1,52 @@
-@import "../../styles/colors.scss";
-@import "../../styles/styles.scss";
+// Dark-theme styling matching the redesigned site (see src/styles/newsite.scss for
+// the design tokens this relies on: --text, --text-dim, --accent, etc.). This page
+// always renders inside the .thriill-site wrapper, on both the home and privacy routes.
+.thriill-site .privacypolicy-container {
+  min-height: 70vh;
+  max-width: 760px;
+  margin: 56px auto 88px;
+  padding: 0;
+  background: transparent;
+  text-align: left;
+  color: var(--text-dim);
+  line-height: 1.75;
 
-.privacypolicy-container {
-    margin-top: 100px;
-    background-color: #fff;
-    text-align: left;
-    margin: 100px -64px;
-    padding: $gridSize * 2;
+  h1 {
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    margin: 0 0 28px;
+    color: var(--text);
+  }
+
+  h2 {
+    font-size: 1.35rem;
+    font-weight: 400;
+    margin: 40px 0 12px;
+    color: var(--text);
+  }
+
+  p,
+  li {
+    color: var(--text-dim);
+  }
+
+  ul {
+    list-style: disc;
+    padding-left: 1.4rem;
+    margin: 0 0 1em;
+  }
+
+  li {
+    margin-bottom: 6px;
+  }
+
+  strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  a {
+    color: var(--accent);
+    text-decoration: underline;
+    word-break: break-word;
+  }
 }

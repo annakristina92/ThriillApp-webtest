@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import { goHome } from './common';
-import logo from './assets/img/logo.svg';
+import { goHome } from '../../siteHelpers';
+import logo from '../../assets/logo.svg';
 
 // `home` is true on the home page (links scroll within the page). On other pages the
 // links take the visitor back to the same section of the home page.

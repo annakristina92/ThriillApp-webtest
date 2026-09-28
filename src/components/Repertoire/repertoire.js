@@ -1,36 +1,59 @@
 import { useEffect, useRef, useState } from 'react';
-import { LEVEL_OPTIONS, REPERTOIRE_EMBED, SHEETS } from './data';
-import { LazyIframe, Reveal, shareLink } from './common';
+import { REPERTOIRE_EMBED } from '../../siteData';
+import { LazyIframe, Reveal, shareLink } from '../../siteHelpers';
+import Icon from '../Icon/icon';
+import thumbSicilienne from '../../assets/thumb-sicilienne.jpg';
+import thumbEtude from '../../assets/thumb-etude25.jpg';
+import thumbWinterWind from '../../assets/thumb-winterwind.jpg';
 
-const PlayIcon = () => (
-  <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
-    <path fill="currentColor" d="M8 5v14l11-7z" />
-  </svg>
-);
+const LEVEL_OPTIONS = [
+  { value: 'all', label: 'Level: All' },
+  { value: 'beginner', label: 'Beginner' },
+  { value: 'intermediate', label: 'Intermediate' },
+  { value: 'upper-intermediate', label: 'Upper Intermediate' },
+];
 
-const DownloadIcon = () => (
-  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-    <path fill="currentColor" d="M5 20h14v-2H5v2zm7-18v11.17l3.59-3.58L17 11l-5 5-5-5 1.41-1.41L12 13.17V2h0z" />
-  </svg>
-);
-
-const ShareIcon = () => (
-  <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
-    <path
-      fill="currentColor"
-      d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"
-    />
-  </svg>
-);
-
-const CloseIcon = () => (
-  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
-    <path
-      fill="currentColor"
-      d="M18.3 5.71 12 12.01l-6.3-6.3-1.41 1.41 6.3 6.3-6.3 6.3 1.41 1.41 6.3-6.3 6.3 6.3 1.41-1.41-6.3-6.3 6.3-6.3z"
-    />
-  </svg>
-);
+const SHEETS = [
+  {
+    key: 'sicilienne',
+    title: 'Sicilienne',
+    composer: 'O. Fauré, arr. L. Putt',
+    level: 'beginner',
+    levelLabel: 'Beginner Level',
+    thumb: thumbSicilienne,
+    videoId: '3yYUUy_f_ZI',
+    videoTitle: 'Sicilienne — O. Fauré',
+    sheetId: '16q9R6xG_mAYmAJchnc541AcYGMVYdDK1',
+    sheetTitle: 'Sicilienne — O. Fauré',
+    shareTitle: 'Thriill — Sicilienne (O. Fauré)',
+  },
+  {
+    key: 'etude-25',
+    title: 'Etude Nr. 25',
+    composer: 'L. Schitte',
+    level: 'intermediate',
+    levelLabel: 'Intermediate Level',
+    thumb: thumbEtude,
+    videoId: 'kix0nR0AYLg',
+    videoTitle: 'Etude Nr. 25 — L. Schitte',
+    sheetId: '13sa5v0OHWFCsrIKdWYPkDumzw6XGhv8J',
+    sheetTitle: 'Etude Nr. 25 — L. Schitte',
+    shareTitle: 'Thriill — Etude Nr. 25 (L. Schitte)',
+  },
+  {
+    key: 'winter-wind',
+    title: 'Winter Wind',
+    composer: 'G. Concone',
+    level: 'upper-intermediate',
+    levelLabel: 'Upper Intermediate Level',
+    thumb: thumbWinterWind,
+    videoId: '-vBirkgcou8',
+    videoTitle: 'Winter Wind — G. Concone',
+    sheetId: '1GW3NCGkQmNhgNfHQYm3aJ24le_jKf5eX',
+    sheetTitle: 'Winter Wind — G. Concone',
+    shareTitle: 'Thriill — Winter Wind (G. Concone)',
+  },
+];
 
 const SheetCard = ({ sheet, visible, onPlay, onViewSheet }) => {
   const [copied, setCopied] = useState(false);
@@ -55,7 +78,7 @@ const SheetCard = ({ sheet, visible, onPlay, onViewSheet }) => {
           {sheet.composer} · {sheet.levelLabel}
         </p>
         <button className="play-btn" type="button" onClick={(e) => onPlay(sheet, e.currentTarget)}>
-          <PlayIcon /> Play
+          <Icon name="play" /> Play
         </button>
       </div>
       <div className="sheet-actions">
@@ -65,7 +88,7 @@ const SheetCard = ({ sheet, visible, onPlay, onViewSheet }) => {
           aria-label={`View ${sheet.title} sheet`}
           onClick={(e) => onViewSheet(sheet, e.currentTarget)}
         >
-          <DownloadIcon />
+          <Icon name="download" />
         </button>
         <button
           className={`btn-icon share-btn${copied ? ' is-copied' : ''}`}
@@ -73,17 +96,19 @@ const SheetCard = ({ sheet, visible, onPlay, onViewSheet }) => {
           aria-label={copied ? 'Link copied' : `Share ${sheet.title}`}
           onClick={() => shareLink(sheet.shareTitle, shareUrl, showCopied)}
         >
-          {copied ? '✓' : <ShareIcon />}
+          {copied ? '✓' : <Icon name="share" />}
         </button>
       </div>
     </Reveal>
   );
 };
 
+// Real repertoire preview: level filter, a muted looping background video, and each
+// sheet's own reference video / PDF opening in an on-site pop-up rather than a new tab.
 const Repertoire = () => {
   const [level, setLevel] = useState('all');
-  const [video, setVideo] = useState(null); // sheet whose reference video is open
-  const [sheetView, setSheetView] = useState(null); // sheet whose PDF is open
+  const [video, setVideo] = useState(null);
+  const [sheetView, setSheetView] = useState(null);
   const lastFocus = useRef(null);
 
   const visibleCount = SHEETS.filter((s) => level === 'all' || s.level === level).length;
@@ -97,7 +122,6 @@ const Repertoire = () => {
     if (lastFocus.current) lastFocus.current.focus();
   };
 
-  // Escape closes whichever pop-up is open.
   useEffect(() => {
     if (!video && !sheetView) return undefined;
     const onKey = (e) => {
@@ -112,12 +136,7 @@ const Repertoire = () => {
   return (
     <section className="repertoire" id="repertoire">
       <div className="repertoire-video-bg" aria-hidden="true">
-        <LazyIframe
-          src={REPERTOIRE_EMBED}
-          title=""
-          frameBorder="0"
-          allow="autoplay"
-        />
+        <LazyIframe src={REPERTOIRE_EMBED} title="" frameBorder="0" allow="autoplay" />
         <div className="repertoire-click-shield" />
       </div>
       <div className="repertoire-video-overlay" aria-hidden="true" />
@@ -174,7 +193,7 @@ const Repertoire = () => {
           <div className="video-modal-backdrop" onClick={closeVideo} />
           <div className="video-modal-dialog" role="dialog" aria-modal="true" aria-label="Video">
             <button className="video-modal-close" type="button" aria-label="Close video" onClick={closeVideo}>
-              <CloseIcon />
+              <Icon name="close" />
             </button>
             <div className="video-modal-frame">
               <iframe
@@ -194,7 +213,7 @@ const Repertoire = () => {
           <div className="video-modal-backdrop" onClick={closeSheet} />
           <div className="sheet-modal-dialog" role="dialog" aria-modal="true" aria-label="Sheet music">
             <button className="video-modal-close" type="button" aria-label="Close sheet" onClick={closeSheet}>
-              <CloseIcon />
+              <Icon name="close" />
             </button>
             <div className="sheet-modal-frame">
               <iframe

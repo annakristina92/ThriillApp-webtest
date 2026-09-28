@@ -109,6 +109,25 @@ p { margin: 0 0 1em; color: var(--text-dim); }
 .ts-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 24px -8px rgba(0, 117, 255, 0.35); }
 .ts-btn-small { padding: 10px 20px; font-size: 0.9rem; }
 
+/* Icons live as real .svg files in src/assets (see components/Icon/icon.js) and are
+   rendered as a currentColor mask, so a button's icon still follows hover/state
+   color changes exactly like it did as inline SVG. */
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background-color: currentColor;
+  -webkit-mask-image: var(--icon-src);
+  mask-image: var(--icon-src);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  flex-shrink: 0;
+}
+
 /* ---------- Header ---------- */
 .site-header {
   position: sticky;
@@ -384,10 +403,10 @@ section h2 {
 .feature-card:hover .feature-icon { transform: scale(1.12) rotate(-4deg); }
 /* Real icon art extracted from the app's own Icon.tsx (BattleIconSm, MusicIconSm,
    TrebleClefIcon, LessonsIconSm) — not generic stock glyphs. */
-.icon-quiz { background: var(--icon-d); -webkit-mask-image: url("./assets/img/icon-battle.svg"); mask-image: url("./assets/img/icon-battle.svg"); }
-.icon-play { background: var(--icon-a); -webkit-mask-image: url("./assets/img/icon-music.svg"); mask-image: url("./assets/img/icon-music.svg"); }
-.icon-video { background: var(--icon-b); -webkit-mask-image: url("./assets/img/icon-clef.svg"); mask-image: url("./assets/img/icon-clef.svg"); }
-.icon-read { background: var(--icon-c); -webkit-mask-image: url("./assets/img/icon-lessons.svg"); mask-image: url("./assets/img/icon-lessons.svg"); }
+.icon-quiz { background: var(--icon-d); -webkit-mask-image: url("../assets/icon-battle.svg"); mask-image: url("../assets/icon-battle.svg"); }
+.icon-play { background: var(--icon-a); -webkit-mask-image: url("../assets/icon-music.svg"); mask-image: url("../assets/icon-music.svg"); }
+.icon-video { background: var(--icon-b); -webkit-mask-image: url("../assets/icon-clef.svg"); mask-image: url("../assets/icon-clef.svg"); }
+.icon-read { background: var(--icon-c); -webkit-mask-image: url("../assets/icon-lessons.svg"); mask-image: url("../assets/icon-lessons.svg"); }
 
 /* ---------- Teaser (interactive demo) ---------- */
 .teaser { position: relative; overflow: hidden; }

@@ -1,7 +1,7 @@
 import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
-import { IOS_URL, ANDROID_URL } from './data';
-import appleBadge from './assets/img/apple-badge.svg';
-import googleBadge from './assets/img/google-badge.svg';
+import { IOS_URL, ANDROID_URL } from './siteData';
+import appleBadge from './assets/apple-badge.svg';
+import googleBadge from './assets/google-badge.svg';
 
 export function detectPlatform() {
   const ua = navigator.userAgent || navigator.vendor || '';
