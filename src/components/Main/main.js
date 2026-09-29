@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { HERO_EMBED } from '../../siteData';
-import { LazyIframe, StoreBadges } from '../../siteHelpers';
+import { StoreBadges } from '../../siteHelpers';
 import Icon from '../Icon/icon';
 import heroVideo from '../../assets/piano-hands-bg.mp4';
 
 // The hero: real background video, then the phone-frame with the actual app-in-action
-// video inside (starts muted for autoplay, with an unmute toggle).
+// video inside (starts muted for autoplay, with an unmute toggle). Both load eagerly,
+// not lazily — unlike the Repertoire section's embed, this one is already on screen the
+// moment the page loads, so deferring it would only add delay with no benefit.
 const Main = () => {
   const videoRef = useRef(null);
   const embedRef = useRef(null);
@@ -59,6 +61,7 @@ const Main = () => {
         muted
         loop
         playsInline
+        preload="auto"
         aria-hidden="true"
       >
         <source src={heroVideo} type="video/mp4" />
@@ -76,7 +79,7 @@ const Main = () => {
         <div className="hero-visual">
           <div className="phone-frame">
             <div className="phone-screen">
-              <LazyIframe
+              <iframe
                 ref={embedRef}
                 id="hero-video"
                 src={HERO_EMBED}
