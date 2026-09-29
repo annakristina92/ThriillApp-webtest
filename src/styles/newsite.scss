@@ -27,6 +27,9 @@ html { scroll-behavior: smooth; }
   --icon-b: #00ba3c;
   --icon-c: #d94a4a;
   --icon-d: #0075ff;
+  /* From the app's MedalGoldIcon circleFill — used only for the 4th feature badge so it
+     doesn't repeat an existing accent and isn't the alarming error-red. */
+  --icon-gold: #b8860b;
   /* Exact correct/wrong colors from Colors.ts (dark theme): successAccent, errorAccent,
      successBackground, errorBackground — used for answer reveal states and result banners. */
   --success-accent: #4caf82;
@@ -388,25 +391,29 @@ section h2 {
 
 .feature-icon {
   display: block;
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
   margin-bottom: 18px;
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  -webkit-mask-size: 22px;
-  mask-size: 22px;
+  -webkit-mask-size: 26px;
+  mask-size: 26px;
   transition: transform 0.2s ease;
 }
 .feature-card:hover .feature-icon { transform: scale(1.12) rotate(-4deg); }
-/* Real icon art extracted from the app's own Icon.tsx (BattleIconSm, MusicIconSm,
-   TrebleClefIcon, LessonsIconSm) — not generic stock glyphs. */
+/* Real icon art extracted from the app's own Icon.tsx (BattleIconSm, ScoreIconSm,
+   PlayVideoIcon, LampIcon) — not generic stock glyphs, and each one picked to actually
+   match its card's text rather than reusing the same music-notes glyph everywhere.
+   Each badge uses a distinct color pulled from the app's own palette (Colors.ts /
+   MedalGoldIcon), avoiding the error-red so a "look how great this feature is" card
+   never reads as a warning. */
 .icon-quiz { background: var(--icon-d); -webkit-mask-image: url("../assets/icon-battle.svg"); mask-image: url("../assets/icon-battle.svg"); }
-.icon-play { background: var(--icon-a); -webkit-mask-image: url("../assets/icon-music.svg"); mask-image: url("../assets/icon-music.svg"); }
-.icon-video { background: var(--icon-b); -webkit-mask-image: url("../assets/icon-clef.svg"); mask-image: url("../assets/icon-clef.svg"); }
-.icon-read { background: var(--icon-c); -webkit-mask-image: url("../assets/icon-lessons.svg"); mask-image: url("../assets/icon-lessons.svg"); }
+.icon-play { background: var(--icon-a); -webkit-mask-image: url("../assets/icon-trophy.svg"); mask-image: url("../assets/icon-trophy.svg"); }
+.icon-video { background: var(--success-accent); -webkit-mask-image: url("../assets/icon-video-play.svg"); mask-image: url("../assets/icon-video-play.svg"); }
+.icon-read { background: var(--icon-gold); -webkit-mask-image: url("../assets/icon-lamp.svg"); mask-image: url("../assets/icon-lamp.svg"); }
 
 /* ---------- Teaser (interactive demo) ---------- */
 .teaser { position: relative; overflow: hidden; }
