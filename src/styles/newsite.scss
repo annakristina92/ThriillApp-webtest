@@ -196,11 +196,7 @@ p { margin: 0 0 1em; color: var(--text-dim); }
   position: absolute;
   inset: 0;
   z-index: 1;
-  /* The gradient used to go var(--bg) (fully solid) at both 0% and 100%, with only
-     88%-opaque in between — leaving no point where the video was actually visible
-     through it. Now it stays translucent throughout, darkest at the edges for text
-     contrast, lightest in the middle so the video reads clearly behind the content. */
-  background: linear-gradient(180deg, rgba(19, 31, 36, 0.55) 0%, rgba(19, 31, 36, 0.25) 45%, rgba(19, 31, 36, 0.7) 100%);
+  background: linear-gradient(180deg, var(--bg) 0%, rgba(19, 31, 36, 0.88) 45%, var(--bg) 100%);
 }
 .hero-inner {
   position: relative;
