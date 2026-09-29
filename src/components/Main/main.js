@@ -13,12 +13,29 @@ const Main = () => {
 
   // React doesn't reliably reflect the `muted` prop as an attribute, and browsers
   // only autoplay muted video, so set it on the element and start playback directly.
+  // A single attempt on mount isn't reliable everywhere — the video may not have
+  // enough data yet, or something pauses it before the user ever sees it move — so
+  // this retries once more data is ready and resumes if it ever stops on its own.
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
     video.muted = true;
-    const playing = video.play();
-    if (playing && playing.catch) playing.catch(() => {});
+
+    const tryPlay = () => {
+      const playing = video.play();
+      if (playing && playing.catch) playing.catch(() => {});
+    };
+
+    tryPlay();
+    video.addEventListener('canplay', tryPlay);
+    video.addEventListener('loadeddata', tryPlay);
+    video.addEventListener('pause', tryPlay);
+
+    return () => {
+      video.removeEventListener('canplay', tryPlay);
+      video.removeEventListener('loadeddata', tryPlay);
+      video.removeEventListener('pause', tryPlay);
+    };
   }, []);
 
   const toggleSound = () => {
